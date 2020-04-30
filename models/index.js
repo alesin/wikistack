@@ -22,6 +22,14 @@ const Page = db.define('pages', {
   },
 });
 
+function slugGenerator (pageTitle) {
+  return pageTitle.replace(/\s+/g, "_").replace(/\W/g, '')
+}
+
+Page.beforeValidate((pageInstance, optionsObject) => {
+  pageInstance.slug = slugGenerator(pageInstance.title)
+})
+
 const User = db.define('users', {
   name: {
     type: Sequelize.STRING,
